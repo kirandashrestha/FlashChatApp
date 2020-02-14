@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/widgets/round_button.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import '../constants.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = "login_screen";
@@ -41,33 +41,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 48.0,
               ),
               TextField(
-                  textAlign: TextAlign.center,
-                  keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  onChanged: (value) {
-                    //Do something with the user input.
-                    email = value;
-                  },
-                  decoration:
-                      kInputDecoration.copyWith(hintText: "Enter your email.")),
+                textAlign: TextAlign.center,
+                onChanged: (value) {
+                  //Do something with the user input.
+                  email = value;
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration:
+                    kInputDecoration.copyWith(hintText: "Enter your email"),
+              ),
               SizedBox(
                 height: 8.0,
               ),
               TextField(
-                obscureText: true,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-                onChanged: (value) {
-                  //Do something with the user input.
-                  password = value;
-                },
-                decoration:
-                    kInputDecoration.copyWith(hintText: "Enter your password."),
-              ),
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    //Do something with the user input.
+                    password = value;
+                  },
+                  decoration: kInputDecoration.copyWith(
+                      hintText: "Enter your password")),
               SizedBox(
                 height: 24.0,
               ),

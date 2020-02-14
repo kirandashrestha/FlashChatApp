@@ -28,18 +28,19 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-//  void getMessage() async {
+//  void getMessages() async {
 //    final messages = await _firestore.collection("messages").getDocuments();
 //    for (var message in messages.documents) {
 //      print(message.data);
 //    }
 //  }
 
-  void messageStream() async {
-    await for (var snapshot in _firestore.collection("messages").snapshots())
+  void messagesStream() async {
+    await for (var snapshot in _firestore.collection("messages").snapshots()) {
       for (var message in snapshot.documents) {
         print(message.data);
       }
+    }
   }
 
   @override
@@ -71,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            StreamBuilder(
+            StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection("messages").snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -87,9 +88,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   messageWidgets.add(messageWidget);
                 }
                 return Expanded(
-                    child: ListView(
-                  children: messageWidgets,
-                ));
+                  child: ListView(
+                    children: messageWidgets,
+                  ),
+                );
               },
             ),
             Container(
@@ -113,7 +115,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         'text': message,
                         'sender': loggedInUser.email,
                       });
-                      messageStream();
+                      messagesStream();
                     },
                     child: Text(
                       'Send',
@@ -125,6 +127,52 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  final String messageText;
+  final String messageSender;
+  final bool isMe;
+  MessageBubble({this.messageText, this.messageSender, this.isMe});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            '$messageSender',
+            style: TextStyle(fontSize: 12.0, color: Colors.black54),
+          ),
+          Material(
+              color: isMe ? Colors.lightBlueAccent : Colors.green,
+              elevation: 5.0,
+              borderRadius: isMe
+                  ? BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      bottomLeft: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0),
+                    )
+                  : BorderRadius.only(
+                      bottomRight: Radius.circular(30.0),
+                      bottomLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
+                    ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 20.0),
+                child: Text(
+                  '$messageText',
+                  style: TextStyle(fontSize: 15.0, color: Colors.white),
+                ),
+              )),
+        ],
       ),
     );
   }

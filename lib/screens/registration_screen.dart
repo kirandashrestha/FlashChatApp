@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/widgets/round_button.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static String id = "registration_screen";
@@ -37,32 +37,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-                onChanged: (value) {
-                  email = value;
-                  //Do something with the user input.
-                },
-                decoration:
-                    kInputDecoration.copyWith(hintText: "Enter your email.")),
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (value) {
+                //Do something with the user input.
+                email = value;
+              },
+              decoration:
+                  kInputDecoration.copyWith(hintText: "Enter your email"),
+            ),
             SizedBox(
               height: 8.0,
             ),
             TextField(
                 obscureText: true,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
                 onChanged: (value) {
-                  password = value;
                   //Do something with the user input.
+                  password = value;
                 },
-                decoration: kInputDecoration.copyWith(
-                    hintText: "Enter your password.")),
+                decoration:
+                    kInputDecoration.copyWith(hintText: "Enter your password")),
             SizedBox(
               height: 24.0,
             ),
